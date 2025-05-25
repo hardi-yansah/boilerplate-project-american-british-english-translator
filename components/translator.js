@@ -27,13 +27,13 @@ class Translator {
         : this.britishToAmericanTitles;
 
     const sortedTitles = Object.entries(titlesMap).sort(
-      (a, b) => b[0].length - a[0].length
+      (a, b) => b[0].length - a[0].length,
     );
     for (const [key, value] of sortedTitles) {
-      const regex = new RegExp(`\\b${key}(?=\\s|$)`, "gi");
+      const regex = new RegExp(`\\b${key}(?=\\s|$|\\.)`, "gi");
       translated = translated.replace(
         regex,
-        `<span class="highlight">${value}</span>`
+        `<span class="highlight">${value}</span>`,
       );
     }
 
@@ -45,7 +45,7 @@ class Translator {
     translated = translated.replace(timeRegex, (match) => {
       const replacement = match.replace(
         locale === "american-to-british" ? ":" : ".",
-        locale === "american-to-british" ? "." : ":"
+        locale === "american-to-british" ? "." : ":",
       );
       return `<span class="highlight">${replacement}</span>`;
     });
@@ -54,13 +54,13 @@ class Translator {
     const onlyTerms =
       locale === "american-to-british" ? americanOnly : britishOnly;
     const sortedOnlyTerms = Object.entries(onlyTerms).sort(
-      (a, b) => b[0].length - a[0].length
+      (a, b) => b[0].length - a[0].length,
     );
     for (const [key, value] of sortedOnlyTerms) {
       const regex = new RegExp(`\\b${key}\\b`, "gi");
       translated = translated.replace(
         regex,
-        `<span class="highlight">${value}</span>`
+        `<span class="highlight">${value}</span>`,
       );
     }
 
@@ -71,17 +71,17 @@ class Translator {
         : this.britishToAmericanSpelling;
 
     const sortedSpelling = Object.entries(spellingMap).sort(
-      (a, b) => b[0].length - a[0].length
+      (a, b) => b[0].length - a[0].length,
     );
     for (const [key, value] of sortedSpelling) {
       const regex = new RegExp(`\\b${key}\\b`, "gi");
       translated = translated.replace(
         regex,
-        `<span class="highlight">${value}</span>`
+        `<span class="highlight">${value}</span>`,
       );
     }
 
-    return translated;
+    return translated === text ? text : translated;
   }
 }
 

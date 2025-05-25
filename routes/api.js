@@ -23,9 +23,15 @@ module.exports = function (app) {
     const translation = translator.translate(text, locale);
 
     if (translation === text) {
-      return res.json({ translation: "Everything looks good to me!" });
+      return res.json({
+        text,
+        translation: "Everything looks good to me!",
+      });
     }
 
-    res.json({ translation });
+    res.json({
+      text,
+      translation,
+    });
   });
 };
